@@ -1,0 +1,50 @@
+/* Container for form-based views */
+.form-container {
+  width: 400px;
+  margin: 0 auto;
+}
+
+/* Form group styling for input fields */
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* General button styling */
+.form-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Specific styling for save/submit buttons */
+.save-button {
+  background-color: #28a745;
+  color: white;
+  margin-right: 10px;
+}
+
+/* Specific styling for delete/cancel buttons */
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+  margin-top: 10px;
+}
+

@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.smore-image {
+  width: 50px; /* Adjust the size as needed */
+  height: 50px;
+  margin-right: 10px; /* Spacing between the image and title */
+}
