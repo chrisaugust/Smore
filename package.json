@@ -1,0 +1,11 @@
+{
+  "name": "smore-heroku",
+  "version": "1.0.0",
+  "description": "Smore is a time tracking app to help you track and visualize your work sessions across projects",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Chris Danielson",
+  "license": "ISC"
+}
