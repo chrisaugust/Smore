@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_URL = 
   process.env.NODE_ENV === 'production'
-    ? 'YOUR_APP_URL'
+    ? 'https://intense-inlet-27210-0519dd6f66ca.herokuapp.com/'
     : 'http://localhost:3005';
 
 const api = axios.create({
