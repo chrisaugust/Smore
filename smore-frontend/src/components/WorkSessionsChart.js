@@ -58,15 +58,24 @@ const WorkSessionsChart = () => {
       .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(x));
 
+    // X-axis label
+    svg.append('text')
+      .attr('transform', `translate(${width / 2 + margin.left},${height + margin.top + 40})`)
+      .style('text-anchor', 'middle')
+      .text('Project Name');
+
     g.append('g')
       .attr('class', 'axis axis--y')
-      .call(d3.axisLeft(y).ticks(10))
-      .append('text')
+      .call(d3.axisLeft(y).ticks(10));
+
+    // Y-axis label 
+    svg.append('text')
       .attr('transform', 'rotate(-90)')
-      .attr('y', 6)
-      .attr('dy', '0.71em')
-      .attr('text-anchor', 'end')
-      .text('Total Duration in Minutes');
+      .attr('y', margin.left - 60) 
+      .attr('x', -(height / 2) - margin.top)
+      .attr('dy', '1em')
+      .attr('text-anchor', 'middle')
+      .text('Duration in Minutes');
 
     g.selectAll('.bar')
       .data(data)
@@ -77,7 +86,16 @@ const WorkSessionsChart = () => {
       .attr('width', x.bandwidth())
       .attr('height', d => height - y(d.total_duration))
       .attr('fill', 'steelblue');
-  };
+
+    // Chart Title
+    svg.append('text')
+      .attr('x', width / 2 + margin.left)
+      .attr('y', margin.top / 2)
+      .attr('text-anchor', 'middle')
+      .style('font-size', '20px')
+      .style('font-weight', 'bold')
+      .text('Time Spent Per Project')
+  }; 
 
   return (
     <div>

@@ -98,8 +98,10 @@ const Home = () => {
               <li>No projects found</li>
             )}
           </ul>
-          <Link to="/create-project">Create New Project</Link>
-          <Link to="/visualization">See visualization of time spent per project</Link>
+          <div>
+            <p><Link to="/create-project">Create New Project</Link></p>
+            <p><Link to="/visualization">See visualization of time spent per project</Link></p>
+          </div>
         </div>
       ) : (
         <div>
