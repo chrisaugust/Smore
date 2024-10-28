@@ -128,6 +128,43 @@ app.post('/api/v1/users/login', async (req, res) => {
   }
 });
 
+// Get data for visualization of total time spent per project for logged-in user
+app.get('/api/v1/users/:userId/workSessions', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const query = ` 
+      SELECT 
+          ws.project_id,
+          p.name AS project_name,
+          SUM(ws.duration) AS total_duration
+      FROM 
+          work_sessions ws
+      JOIN 
+          projects p ON ws.project_id = p.id
+      WHERE 
+          ws.user_id = $1
+      GROUP BY 
+          ws.project_id, p.name
+      ORDER BY 
+          ws.project_id ASC;
+    `;
+
+    const result = await pool.query(query, [userId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'No work sessions found for the user' }); 
+    }   
+
+    res.status(200).json({
+      status: 'success',
+      work_sessions: result.rows,
+    }); 
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' }); 
+  }
+});
+
 // Get all projects for logged-in user
 app.get('/api/v1/projects', authenticateToken, async (req, res) => {
   const userId = req.user.id;

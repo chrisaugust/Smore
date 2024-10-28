@@ -7,6 +7,7 @@ import EditProject from './components/EditProject';
 import EditWorkSession from './components/EditWorkSession';
 import Register from './components/Register';
 import Login from './components/Login';
+import WorkSessionsChart from './components/WorkSessionsChart';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -25,6 +26,7 @@ function App() {
         <Route path="/create-project" element={<CreateProject />} />
         <Route path="/projects/:projectId/edit" element={<EditProject />} /> 
         <Route path="/projects/:projectId/work_sessions/:workSessionId/edit" element={<EditWorkSession />} />
+        <Route path="/visualization" element={<WorkSessionsChart />} />
       </Routes>
     </Router>
   );
