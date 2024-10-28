@@ -12,7 +12,7 @@ const WorkSessionsChart = () => {
       const userId = user.id;
 
       try {
-        const response = await axios.get(`http://localhost:3005/api/v1/users/${userId}/workSessions`, {
+        const response = await axios.get(`/api/v1/users/${userId}/workSessions`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
