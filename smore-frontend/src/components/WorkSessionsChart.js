@@ -46,7 +46,7 @@ const WorkSessionsChart = () => {
       .domain(data.map(d => d.project_name));
 
     const y = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.total_duration)])
+      .domain([0, d3.max(data, d => d.total_duration || 0)])
       .nice()
       .range([height, 0]);
 
