@@ -13,3 +13,12 @@ body {
   height: 50px;
   margin-right: 10px; /* Spacing between the image and title */
 }
+
+a {
+  color: #FFB347; /* soft yellow-orange */
+  text-decoration: none;
+}
+
+a:hover {
+  color: #FFA500; /* bright yellow-orange when hovered */
+}
