@@ -89,8 +89,8 @@ const WorkSessionsChart = () => {
 
     // Chart Title
     g.append('text')
-      .attr('x', width / 2 + margin.left)
-      .attr('y', margin.top / 2)
+      .attr('x', width / 2)
+      .attr('y', -margin.top / 2)
       .attr('text-anchor', 'middle')
       .style('font-size', '20px')
       .style('font-weight', 'bold')
