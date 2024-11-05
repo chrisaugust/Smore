@@ -134,6 +134,7 @@ app.get('/api/v1/users/:userId/workSessions', authenticateToken, async (req, res
   try {
     const query = ` 
       SELECT 
+          ws.date,
           ws.project_id,
           p.name AS project_name,
           SUM(ws.duration) AS total_duration
@@ -144,9 +145,9 @@ app.get('/api/v1/users/:userId/workSessions', authenticateToken, async (req, res
       WHERE 
           ws.user_id = $1
       GROUP BY 
-          ws.project_id, p.name
+          ws.date, ws.project_id, p.name
       ORDER BY 
-          ws.project_id ASC;
+          ws.date ASC, ws.project_id ASC;
     `;
 
     const result = await pool.query(query, [userId]);
