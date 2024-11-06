@@ -1,5 +1,6 @@
 require('dotenv').config();
 const path = require('path')
+const favicon = require('serve-favicon');
 const express = require('express');
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
@@ -11,6 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 const pool = new Pool({
 //  user: process.env.DB_USER,
