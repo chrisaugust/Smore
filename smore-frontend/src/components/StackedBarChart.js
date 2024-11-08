@@ -33,7 +33,7 @@ const StackedBarChart = () => {
   }, [data]);
 
   const processData = (sessions) => {
-    const dates = [...new Set(sessions.map(session => (new Date(session.date).toISOString().split('T')[0]))];
+    const dates = [...new Set(sessions.map(session => (new Date(session.date).toISOString().split('T')[0])))];
     const projects = [...new Set(sessions.map(session => session.project_name))];
 
     // Map to hold all data with durations, including 0s for missing entries
