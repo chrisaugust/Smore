@@ -33,14 +33,14 @@ const StackedBarChart = () => {
   }, [data]);
 
   const processData = (sessions) => {
-    const dates = [...new Set(sessions.map(session => new Date(session.date).toLocaleDateString()))];
+    const dates = [...new Set(sessions.map(session => session.date))];
     const projects = [...new Set(sessions.map(session => session.project_name))];
 
     // Map to hold all data with durations, including 0s for missing entries
     const result = dates.flatMap(date => {
       return projects.map(project => {
         const session = sessions.find(s =>
-          new Date(s.date).toLocaleDateString() === date && s.project_name === project
+          s.date === date && s.project_name === project
         );
 
         return {

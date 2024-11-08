@@ -124,7 +124,7 @@ const Project = () => {
               workSessions.map((session) => (
                 <li key={session.id}>
                   <Link to={`/projects/${projectId}/work_sessions/${session.id}/edit`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <strong>Date:</strong> {new Date(session.date).toDateString()} <br />
+                    <strong>Date:</strong> {session.date} <br />
                     <strong>Duration:</strong> {session.duration} minutes <br />
                     {session.notes && (
                       <>
