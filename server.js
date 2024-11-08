@@ -330,6 +330,7 @@ app.post('/api/v1/projects/:projectId/workSessions', authenticateToken, async (r
     const { projectId } = req.params;
     const user_id = req.user.id
     const date = new Date();
+    const formattedDate = date.toISOString().split('T')[0]; // 'YYYY-MM-DD' format
 
     const query = `
       INSERT INTO work_sessions (
@@ -345,7 +346,7 @@ app.post('/api/v1/projects/:projectId/workSessions', authenticateToken, async (r
       ) RETURNING *;        
     `;
 
-    const values = [start_time, end_time, duration, notes, user_id, projectId, date];
+    const values = [start_time, end_time, duration, notes, user_id, projectId, formattedDate];
     const result = await pool.query(query, values);
 
     res.status(201).json({
@@ -365,6 +366,7 @@ app.post('/api/v1/projects/:projectId/workSessions', authenticateToken, async (r
 app.put('/api/v1/projects/:projectId/workSessions/:workSessionId', authenticateToken, async (req, res) => {
   const { projectId, workSessionId } = req.params;
   const { start_time, end_time, duration, notes, date } = req.body;
+  const formattedDate = date.split('T')[0];
 
   try {
     const result = await pool.query(
@@ -372,7 +374,7 @@ app.put('/api/v1/projects/:projectId/workSessions/:workSessionId', authenticateT
        SET start_time = $1, end_time = $2, duration = $3, notes = $4, date = $5
        WHERE project_id = $6 AND id = $7
        RETURNING *`,
-      [start_time, end_time, duration, notes, date, projectId, workSessionId]
+      [start_time, end_time, duration, notes, formattedDate, projectId, workSessionId]
     );
 
     if (result.rows.length === 0) {
