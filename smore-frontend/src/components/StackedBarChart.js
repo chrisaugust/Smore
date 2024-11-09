@@ -39,9 +39,11 @@ const StackedBarChart = () => {
     // Map to hold all data with durations, including 0s for missing entries
     const result = dates.flatMap(date => {
       return projects.map(project => {
-        const session = sessions.find(s =>
-          s.date === date && s.project_name === project
-        );
+        const session = sessions.find(s => {
+          const sessionDate = new Date(s.date).toISOString().split('T')[0];
+
+          return sessionDate === date && s.project_name === project
+        });
 
         return {
           date,
