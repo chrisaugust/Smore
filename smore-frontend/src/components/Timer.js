@@ -119,8 +119,10 @@ const Timer = ({ projectId, onSessionSaved }) => {
         ) : isPaused ? (
           <button onClick={handleResume}>Resume</button>
         ) : isActive ? (
-          <button onClick={handlePause}>Pause</button>
-          <button onClick={handleStop}>Stop</button>
+          <>
+            <button onClick={handlePause}>Pause</button>
+            <button onClick={handleStop}>Stop</button>
+          </>
         ) : (
           <>
             <button onClick={handleSave}>Save</button>
