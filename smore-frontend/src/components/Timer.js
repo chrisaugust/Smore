@@ -9,7 +9,7 @@ const Timer = ({ projectId, onSessionSaved }) => {
   const [duration, setDuration] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0); // For display purposes
   const [notes, setNotes] = useState('');
-  const [isPaused, setIsPaused] = useState('false');
+  const [isPaused, setIsPaused] = useState(false);
   const [pausedTime, setPausedTime] = useState(0);
   const [pauseStartTime, setPausedStartTime] = useState(null);
 
