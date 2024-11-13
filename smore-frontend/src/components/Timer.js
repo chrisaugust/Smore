@@ -16,11 +16,11 @@ const Timer = ({ projectId, onSessionSaved }) => {
   // Timer logic to update the elapsed time
   useEffect(() => {
     let timer = null;
-    if (isActive) {
+    if (isActive && !isPaused) {
       timer = setInterval(() => {
         setElapsedTime(Date.now() - startTime - pausedTime);
       }, 1000);
-    } else if (!isActive && startTime !== null) {
+    } else {
       clearInterval(timer);
     }
     return () => clearInterval(timer);
