@@ -9,19 +9,22 @@ const Timer = ({ projectId, onSessionSaved }) => {
   const [duration, setDuration] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0); // For display purposes
   const [notes, setNotes] = useState('');
+  const [isPaused, setIsPaused] = useState('false');
+  const [pausedTime, setPausedTime] = useState(0);
+  const [pauseStartTime, setPauseStartTime] = useState(null);
 
   // Timer logic to update the elapsed time
   useEffect(() => {
     let timer = null;
     if (isActive) {
       timer = setInterval(() => {
-        setElapsedTime(Date.now() - startTime);
+        setElapsedTime(Date.now() - startTime - pausedTime);
       }, 1000);
     } else if (!isActive && startTime !== null) {
       clearInterval(timer);
     }
     return () => clearInterval(timer);
-  }, [isActive, startTime]);
+  }, [isActive, isPaused, startTime, pausedTime]);
 
   const handleStart = () => {
     setStartTime(Date.now());
@@ -84,6 +87,16 @@ const Timer = ({ projectId, onSessionSaved }) => {
     setNotes('');
   };
 
+  const handlePause = () => {
+    setIsPaused(true);
+    setPauseStartTime(Date.now());
+  };
+
+  const handleResume = () => {
+    setIsPaused(false);
+    setPausedTime(pausedTime + (Date.now() - pauseStartTime));
+  };
+
   const formatTime = (milliseconds) => {
     const totalSeconds = Math.floor(milliseconds / 1000);
     const hours = Math.floor(totalSeconds / 3600);
@@ -103,7 +116,10 @@ const Timer = ({ projectId, onSessionSaved }) => {
       <div className="controls">
         {!isActive && !startTime ? (
           <button onClick={handleStart}>Start</button>
+        ) : isPaused ? (
+          <button onClick={handleResume}>Resume</button>
         ) : isActive ? (
+          <button onClick={handlePause}>Pause</button>
           <button onClick={handleStop}>Stop</button>
         ) : (
           <>
