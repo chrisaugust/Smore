@@ -20,21 +20,23 @@ const Timer = ({ projectId, onSessionSaved }) => {
       timer = setInterval(() => {
         setElapsedTime(Date.now() - startTime - pausedTime);
       }, 1000);
-    } else {
-      clearInterval(timer);
+    } else if (!isActive) {
+      setElapsedTime(0);
     }
     return () => clearInterval(timer);
   }, [isActive, isPaused, startTime, pausedTime]);
 
   const handleStart = () => {
     setStartTime(Date.now());
+    setPausedTime(0);
+    setPausedStartTime(null);
     setIsActive(true);
   };
 
   const handleStop = () => {
     const now = Date.now();
     setEndTime(now);
-    setDuration(Math.floor((now - startTime) / 1000)); // Convert duration to seconds
+    setDuration(Math.floor(elapsedTime / 1000)); // Convert duration to seconds
     setIsActive(false);
   };
 
@@ -84,7 +86,11 @@ const Timer = ({ projectId, onSessionSaved }) => {
     setEndTime(null);
     setDuration(0);
     setElapsedTime(0);
+    setPausedTime(0);
+    setPausedStartTime(null);
     setNotes('');
+    setIsPaused(false);
+    setIsActive(false);
   };
 
   const handlePause = () => {
@@ -94,7 +100,10 @@ const Timer = ({ projectId, onSessionSaved }) => {
 
   const handleResume = () => {
     setIsPaused(false);
-    setPausedTime(pausedTime + (Date.now() - pauseStartTime));
+    if (pauseStartTime) {
+      setPausedTime(pausedTime + (Date.now() - pauseStartTime));
+    }
+    setPauseStartTime(null);
   };
 
   const formatTime = (milliseconds) => {
