@@ -95,7 +95,7 @@ const Timer = ({ projectId, onSessionSaved }) => {
 
   const handlePause = () => {
     setIsPaused(true);
-    setPauseStartTime(Date.now());
+    setPausedStartTime(Date.now());
   };
 
   const handleResume = () => {
@@ -103,7 +103,7 @@ const Timer = ({ projectId, onSessionSaved }) => {
     if (pauseStartTime) {
       setPausedTime(pausedTime + (Date.now() - pauseStartTime));
     }
-    setPauseStartTime(null);
+    setPausedStartTime(null);
   };
 
   const formatTime = (milliseconds) => {
