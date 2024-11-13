@@ -11,7 +11,7 @@ const Timer = ({ projectId, onSessionSaved }) => {
   const [notes, setNotes] = useState('');
   const [isPaused, setIsPaused] = useState('false');
   const [pausedTime, setPausedTime] = useState(0);
-  const [pauseStartTime, setPauseStartTime] = useState(null);
+  const [pauseStartTime, setPausedStartTime] = useState(null);
 
   // Timer logic to update the elapsed time
   useEffect(() => {
