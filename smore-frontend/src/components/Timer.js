@@ -20,8 +20,6 @@ const Timer = ({ projectId, onSessionSaved }) => {
       timer = setInterval(() => {
         setElapsedTime(Date.now() - startTime - pausedTime);
       }, 1000);
-    } else if (!isActive) {
-      setElapsedTime(0);
     }
     return () => clearInterval(timer);
   }, [isActive, isPaused, startTime, pausedTime]);
