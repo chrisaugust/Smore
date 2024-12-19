@@ -284,7 +284,7 @@ app.get('/api/v1/projects/:projectId/workSessions', authenticateToken, async (re
         SUM(duration) OVER () AS total_duration
       FROM work_sessions 
       WHERE project_id = $1
-      ORDER BY date ASC
+      ORDER BY date DESC 
     `;
 
     const result = await pool.query(query, [projectId]);
