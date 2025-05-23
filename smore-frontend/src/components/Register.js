@@ -51,7 +51,8 @@ function Register({ setUser }) {
         <div className="form-group">
           <label>Username</label>
           <input
-            type="username"
+            name="username"
+            type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -60,6 +61,7 @@ function Register({ setUser }) {
         <div className="form-group">
           <label>Email</label>
           <input
+            name="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -69,6 +71,7 @@ function Register({ setUser }) {
         <div className="form-group">
           <label>Password</label>
           <input
+            name="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

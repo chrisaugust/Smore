@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import axios from 'axios';
+import api from '../api';
 
 const StackedBarChart = () => {
   const chartRef = useRef();
@@ -8,11 +8,12 @@ const StackedBarChart = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const userId = localStorage.getItem('userId');
+      const user = JSON.parse(localStorage.getItem('user'));
+      const userId = user.id;
       const token = localStorage.getItem('jwtToken');
 
       try {
-        const response = await axios.get(`/api/v1/users/${userId}/workSessions`, {
+        const response = await api.get(`/api/v1/users/${userId}/workSessions`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

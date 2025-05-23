@@ -1,6 +1,5 @@
 require('dotenv').config();
 const path = require('path')
-const favicon = require('serve-favicon');
 const express = require('express');
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
@@ -12,21 +11,32 @@ const app = express();
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-const pool = new Pool({
-//  user: process.env.DB_USER,
-//  host: process.env.DB_HOST,
-//  database: process.env.DB_NAME,
-//  password: process.env.DB_PASSWORD,
-//  port: process.env.DB_PORT
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+// Use favicon conditionally to avoid errors in tests
+try {
+  const favicon = require('serve-favicon');
+  app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+} catch (err) {
+  console.log('Favicon middleware not loaded (likely in test environment)');
+}
 
-const JWT_SECRET = process.env.JWT_SECRET;
+// Use database connection based on environment
+let pool;
+if (process.env.NODE_ENV === 'test') {
+  // In test environment, use the pool from integration-test-db-setup.js
+  const { pool: testPool } = require('./test/integration-test-db-setup');
+  pool = testPool;
+} else {
+  // Regular production connection
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.DATABASE_SSL ? {
+      rejectUnauthorized: false,
+    } : false,
+  });
+}
+
+const JWT_SECRET = process.env.JWT_SECRET || 'testsecrettestsecrettestsecret';
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -34,7 +44,7 @@ const authenticateToken = (req, res, next) => {
 
   if (!token) return res.sendStatus(401);
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403); // invalid token
 
     req.user = user;
@@ -43,7 +53,11 @@ const authenticateToken = (req, res, next) => {
 };
 
 // Serve static files from the React frontend app
-app.use(express.static(path.join(__dirname, './smore-frontend/build')))
+try {
+  app.use(express.static(path.join(__dirname, './smore-frontend/build')))
+} catch (err) {
+  console.log('Static files middleware not loaded (likely in test environment)');
+}
 
 // Create new user
 app.post('/api/v1/users/register', async (req, res) => {
@@ -68,7 +82,7 @@ app.post('/api/v1/users/register', async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       { id: newUser.rows[0].id, email: newUser.rows[0].email },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: '12h' }
     );
 
@@ -306,7 +320,7 @@ app.get('/api/v1/projects/:projectId/workSessions', authenticateToken, async (re
 });
 
 // Get one work session
-app.get('/api/v1/projects/:projectId/workSessions/:workSessionId', async (req, res) => {
+app.get('/api/v1/projects/:projectId/workSessions/:workSessionId', authenticateToken, async (req, res) => {
   const { projectId, workSessionId } = req.params;
 
   try {
@@ -409,15 +423,22 @@ app.delete('/api/v1/projects/:projectId/workSessions/:workSessionId', authentica
 
 // After defining your routes, anything that doesn't match what's above, we want to return index.html from our built React app
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/../client/build/index.html'))
+  try {
+    res.sendFile(path.join(__dirname + 'smore-frontend/build/index.html'))
+  } catch (err) {
+    // In test environment, return a simple 404
+    res.status(404).send('Not Found');
+  }
 });
 
+// For testing purposes
+module.exports = app;
 
-const port = process.env.PORT;
-if (port == null || port == "") {
-  port = 8000;
+// Only start the server if the file is run directly
+if (require.main === module) {
+  const port = process.env.PORT || 8000;
+  
+  app.listen(port, () => {
+    console.log(`Server up and listening on port ${port}`);
+  });
 }
-app.listen(port, () => {
-  console.log(`Server up and listening on port ${port}`);
-});
-

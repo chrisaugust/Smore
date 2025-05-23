@@ -7,7 +7,6 @@ import EditProject from './components/EditProject';
 import EditWorkSession from './components/EditWorkSession';
 import Register from './components/Register';
 import Login from './components/Login';
-//import WorkSessionsChart from './components/WorkSessionsChart';
 import StackedBarChart from './components/StackedBarChart';
 
 function App() {
