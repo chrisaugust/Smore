@@ -97,10 +97,17 @@ const Home = () => {
             ) : (
               <li>No projects found</li>
             )}
+            <li><Link to="/create-project">Create New Project</Link></li>
           </ul>
           <div>
-            <p><Link to="/create-project">Create New Project</Link></p>
-            <p><Link to="/visualization"><img src="/chart.png" alt="Time spent visualization chart icon" /></Link></p>
+              <h3>Visualization of time spent</h3>
+              <Link to="/visualization">
+                <img 
+                  src="/chart.png" 
+                  alt="Time spent visualization chart icon"
+                  style={{ maxWidth: '50px', maxHeight: '50px', cursor: 'pointer' }}
+                />
+              </Link>
           </div>
         </div>
       ) : (
