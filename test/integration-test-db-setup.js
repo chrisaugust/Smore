@@ -55,8 +55,8 @@ const setupTestDatabase = async () => {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS work_sessions (
         id SERIAL PRIMARY KEY,
-        start_time TIME NOT NULL,
-        end_time TIME NOT NULL,
+        start_time TIMESTAMP WITH TIME ZONE,
+        end_time TIMESTAMP WITH TIME ZONE,
         duration INTEGER NOT NULL,
         notes TEXT,
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
